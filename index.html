@@ -1,0 +1,30 @@
+<script src="/socket.io/socket.io.js"></script>
+ <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+
+
+<script>
+
+  var socket = io.connect('http://localhost');
+
+   socket.on('news', 
+
+   function (data){     
+     console.log(data);
+     });
+
+    
+  function enviar()
+  {  
+
+      socket.emit('enviar', { my: $("#dialogo").val() });
+      $('.sala').append($("#dialogo").val());
+  }
+</script>
+
+<div class="sala">
+
+</div>
+
+
+<input type="text" value="escribe un texto" id="dialogo">
+<input type="submit" value="enviar mensaje" onclick="enviar()">
