@@ -11,16 +11,19 @@ function servidor (req, res) {
       res.writeHead(500);
       return res.end('Error loading index.html');
     }
-
     res.writeHead(200);
     res.end(data);
   });
 }
-
+var mensajes = "benvenido al chut<br>";
 io.sockets.on('connection', function (socket) {
-  socket.emit('news', { hello: 'world' });
-
+  socket.emit('actualizarChat', { mensajes: mensajes });
+  console.log('/******************/ se conecto un usuario! /******************/' );
   socket.on('enviar', function (data) {
-    console.log(data);
+    mensajes += data;
+    console.log("/******************/ El dato enviado es --->>"+data+" /******************/");
+    socket.emit('recibirMensaje', { mensaje : data  });
+    socket.broadcast.emit('recibirMensaje', { mensaje : data  });
   });
+
 });
